@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class ItemRepositoryImpl implements ItemRepository {
 
-    HashMap<Long, Item> repository = new HashMap<>();
+    private final HashMap<Long, Item> repository = new HashMap<>();
     private long id = 1;
 
     @Override

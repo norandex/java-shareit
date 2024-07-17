@@ -18,10 +18,4 @@ public class User {
     @Email
     @NotNull
     private String email;
-
-
-    public User(String name, String birthDate) {
-        this.name = name;
-        this.email = birthDate;
-    }
 }
