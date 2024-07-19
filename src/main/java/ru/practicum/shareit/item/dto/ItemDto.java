@@ -1,12 +1,15 @@
 package ru.practicum.shareit.item.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.booking.dto.BookingReservationDto;
+import ru.practicum.shareit.item.comment.dto.CommentDto;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * TODO Sprint add-controllers.
@@ -23,6 +26,12 @@ public class ItemDto {
     private String description;
     @NotNull
     private Boolean available;
-    private User owner;
+
     private Long requestId;
+
+    private List<CommentDto> comments;
+
+    private BookingReservationDto lastBooking;
+
+    private BookingReservationDto nextBooking;
 }
