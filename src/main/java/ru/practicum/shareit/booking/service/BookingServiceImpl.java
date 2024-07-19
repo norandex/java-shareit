@@ -125,8 +125,8 @@ public class BookingServiceImpl implements BookingService {
                         LocalDateTime.now());
                 break;
             case CURRENT:
-                foundBooking = bookingRepository.
-                        findAllByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(userId,
+                foundBooking = bookingRepository
+                        .findAllByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(userId,
                                 LocalDateTime.now(),
                                 LocalDateTime.now());
                 break;
@@ -160,8 +160,8 @@ public class BookingServiceImpl implements BookingService {
                         LocalDateTime.now());
                 break;
             case CURRENT:
-                foundBooking = bookingRepository.
-                        findAllByItemOwnerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(userId,
+                foundBooking = bookingRepository
+                        .findAllByItemOwnerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(userId,
                                 LocalDateTime.now(),
                                 LocalDateTime.now());
                 break;
