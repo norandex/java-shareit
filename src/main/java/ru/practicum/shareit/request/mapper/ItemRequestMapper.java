@@ -18,11 +18,11 @@ public class ItemRequestMapper {
                 .build();
     }
 
-    public static ItemRequest toItemRequest(ItemRequestShortDto itemRequestShortDto, User user, LocalDateTime creation_date) {
+    public static ItemRequest toItemRequest(ItemRequestShortDto itemRequestShortDto, User user, LocalDateTime creationDate) {
         return ItemRequest.builder()
                 .requester(user)
                 .description(itemRequestShortDto.getDescription())
-                .created(creation_date)
+                .created(creationDate)
                 .build();
     }
 }
