@@ -52,7 +52,7 @@ class BookingControllerTest {
     private LocalDateTime end;
 
     @BeforeEach
-    public void prepare() {
+    private void prepare() {
         start = LocalDateTime.now().plusDays(1L);
 
         end = LocalDateTime.now().plusDays(2L);
@@ -85,7 +85,7 @@ class BookingControllerTest {
     }
 
     @AfterEach
-    public void clean() {
+    private void clean() {
         start = null;
         end = null;
         bookingDto = null;
@@ -94,7 +94,7 @@ class BookingControllerTest {
     }
 
     @Test
-    public void createTest() throws Exception {
+    protected void createTest() throws Exception {
         when(bookingService.createBooking(1L, bookingShortDto))
                 .thenReturn(bookingDto);
 
@@ -107,7 +107,7 @@ class BookingControllerTest {
     }
 
     @Test
-    public void updateStatusTest() throws Exception {
+    protected void updateStatusTest() throws Exception {
         bookingDto.setStatus(BookingStatus.APPROVED);
 
         when(bookingService.updateStatus(2L, 1L, true))
@@ -129,7 +129,7 @@ class BookingControllerTest {
     }
 
     @Test
-    public void getTest() throws Exception {
+    protected void getTest() throws Exception {
         when(bookingService.getBooking(1L, 1L))
                 .thenReturn(bookingDto);
 
@@ -149,7 +149,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getUsersBookingsTest() throws Exception {
+    protected void getUsersBookingsTest() throws Exception {
         when(bookingService.getUsersBookings(1L, "ALL", 0, 10))
                 .thenReturn(List.of(bookingDto));
 
@@ -168,7 +168,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getOwnersBookingsTest() throws Exception {
+    protected void getOwnersBookingsTest() throws Exception {
         when(bookingService.getOwnersBookings(1L, "ALL", 0, 10))
                 .thenReturn(List.of(bookingDto));
 

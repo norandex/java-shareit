@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BookingMapperTest {
 
     @Test
-    void toBookingInfoDtoTest() {
+    protected void toBookingInfoDtoTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user name")
@@ -54,7 +54,7 @@ public class BookingMapperTest {
     }
 
     @Test
-    void toBookingReservationDtoTest() {
+    protected void toBookingReservationDtoTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user name")

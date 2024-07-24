@@ -1,4 +1,4 @@
-package ru.practicum.shareit.user.controller.service;
+package ru.practicum.shareit.user.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
-import ru.practicum.shareit.user.service.UserServiceImpl;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,12 +30,12 @@ public class UserServiceTest {
     private UserRepository userRepository;
 
     @BeforeEach
-    public void setUp() {
+    private void setUp() {
         userService = new UserServiceImpl(userRepository);
     }
 
     @Test
-    void createUserTest() {
+    protected void createUserTest() {
         User user = User.builder().name("user").email("test@mail.com").build();
         when(userRepository.save(Mockito.any())).thenReturn(user);
         UserDto userDto = UserDto.builder().name(user.getName()).email(user.getEmail()).build();
@@ -47,7 +46,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void updateUserTest() {
+    protected void updateUserTest() {
         UserDto userDto = UserDto.builder().name("updated user").email("new@mail.ru").build();
 
         User user = User.builder().id(1L).name("user").email("test@mail.ru").build();
@@ -65,7 +64,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void updateThrowsUserNotFoundException() {
+    protected void updateThrowsUserNotFoundException() {
         UserDto userDto = UserDto.builder()
                 .id(1L)
                 .name("test name")
@@ -79,7 +78,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUserTest() {
+    protected void getUserTest() {
         User user = User.builder().id(1L).name("test name").email("test@mail.ru").build();
 
         when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(user));
@@ -92,7 +91,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUsersTest() {
+    protected void getUsersTest() {
         User user1 = User.builder().id(1L).name("test user 1").email("test1@mail.ru").build();
 
         User user2 = User.builder().id(2L).name("test user 2").email("test2@mail.ru").build();
@@ -107,14 +106,14 @@ public class UserServiceTest {
     }
 
     @Test
-    void findByIdThrowsUserNotFoundExceptionTest() {
+    protected void findByIdThrowsUserNotFoundExceptionTest() {
         when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
         UserNotFoundException userNotFoundException = assertThrows(UserNotFoundException.class, () -> userService.getUser(100L));
         assertEquals(userNotFoundException.getMessage(), "no user 100 found");
     }
 
     @Test
-    void deleteUserTest() {
+    protected void deleteUserTest() {
         User user = User.builder().id(1L).name("user").email("test@mail.ru").build();
 
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
@@ -124,7 +123,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void updateUserThrowsEmailCollisionExceptionTest() {
+    protected void updateUserThrowsEmailCollisionExceptionTest() {
         UserDto userDto = UserDto.builder()
                 .name("test name")
                 .email("test@mail.ru")
@@ -146,7 +145,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void deleteUserThrowsUserNotFoundExceptionTest() {
+    protected void deleteUserThrowsUserNotFoundExceptionTest() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
         UserNotFoundException userNotFoundException = assertThrows(UserNotFoundException.class,

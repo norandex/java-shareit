@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ItemRequestMapperTest {
 
     @Test
-    void toItemRequestDtoTest() {
+    protected void toItemRequestDtoTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user name")
@@ -37,7 +37,7 @@ public class ItemRequestMapperTest {
     }
 
     @Test
-    void toItemRequestTest() {
+    protected void toItemRequestTest() {
         ItemRequestShortDto itemRequestShortDto = ItemRequestShortDto.builder()
                 .description("description")
                 .build();

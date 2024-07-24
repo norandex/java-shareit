@@ -32,7 +32,6 @@ public class CommentServiceTest {
 
     @Autowired
     private CommentServiceImpl commentService;
-
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -43,12 +42,12 @@ public class CommentServiceTest {
     private BookingRepository bookingRepository;
 
     @BeforeEach
-    public void setUp() {
+    private void setUp() {
         commentService = new CommentServiceImpl(userRepository, itemRepository, commentRepository, bookingRepository);
     }
 
     @Test
-    void commentTest() {
+    protected void commentTest() {
 
         User user1 = User.builder()
                 .id(1L)
@@ -113,7 +112,7 @@ public class CommentServiceTest {
     }
 
     @Test
-    void commentThrowsUserNotFoundException() {
+    protected void commentThrowsUserNotFoundException() {
         User user1 = User.builder()
                 .id(1L)
                 .name("user")
@@ -173,7 +172,7 @@ public class CommentServiceTest {
     }
 
     @Test
-    void commentThrowsItemNotFoundException() {
+    protected void commentThrowsItemNotFoundException() {
         User user1 = User.builder()
                 .id(1L)
                 .name("user")
@@ -233,7 +232,7 @@ public class CommentServiceTest {
     }
 
     @Test
-    void commentThrowsNotAvailableException() {
+    protected void commentThrowsNotAvailableException() {
         User user1 = User.builder()
                 .id(1L)
                 .name("user")

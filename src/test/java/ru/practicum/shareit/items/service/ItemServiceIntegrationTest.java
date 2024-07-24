@@ -38,7 +38,7 @@ public class ItemServiceIntegrationTest {
     private BookingRepository bookingRepository;
 
     @BeforeEach
-    void setUp() {
+    private void setUp() {
         User owner = User.builder()
                 .name("owner")
                 .email("owner@email.com")
@@ -84,7 +84,7 @@ public class ItemServiceIntegrationTest {
     }
 
     @AfterEach
-    void tearDown() {
+    private void tearDown() {
         bookingRepository.deleteAll();
         itemRepository.deleteAll();
         userRepository.deleteAll();
@@ -92,7 +92,7 @@ public class ItemServiceIntegrationTest {
 
     @DirtiesContext
     @Test
-    void create() throws Exception {
+    protected void create() throws Exception {
         ItemDto itemDto = ItemDto.builder()
                 .name("name")
                 .description("description")
@@ -107,7 +107,7 @@ public class ItemServiceIntegrationTest {
 
     @DirtiesContext
     @Test
-    void getUserItems() throws Exception {
+    protected void getUserItems() throws Exception {
         List<ItemDto> itemDtos = itemService.getItems(1L, 0, 10);
         assertEquals(itemDtos.size(), 1);
         assertEquals(itemDtos.get(0).getName(), "item1");

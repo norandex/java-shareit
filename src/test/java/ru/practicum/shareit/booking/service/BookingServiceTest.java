@@ -44,12 +44,12 @@ public class BookingServiceTest {
     private BookingRepository bookingRepository;
 
     @BeforeEach
-    public void setUp() {
+    private void setUp() {
         bookingService = new BookingServiceImpl(bookingRepository, userRepository, itemRepository);
     }
 
     @Test
-    void createBookingTest() {
+    protected void createBookingTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user")
@@ -99,7 +99,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void createBookingThrowsUserNotFoundException() {
+    protected void createBookingThrowsUserNotFoundException() {
         LocalDateTime start = LocalDateTime.now().plusDays(1L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         BookingShortDto bookingShortDto = BookingShortDto.builder()
@@ -117,7 +117,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void createBookingThrowsItemNotFoundException() {
+    protected void createBookingThrowsItemNotFoundException() {
         User booker = User.builder()
                 .id(3L)
                 .name("booker")
@@ -142,7 +142,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void createBookingThrowsOwnerUserNotFoundException() {
+    protected void createBookingThrowsOwnerUserNotFoundException() {
         LocalDateTime start = LocalDateTime.now().plusDays(1L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -174,7 +174,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void createBookingThrowsNotAvailableException() {
+    protected void createBookingThrowsNotAvailableException() {
         LocalDateTime start = LocalDateTime.now().plusDays(1L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -210,7 +210,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void createBookingStartIsAfterEndThrowsWrongDateException() {
+    protected void createBookingStartIsAfterEndThrowsWrongDateException() {
         LocalDateTime start = LocalDateTime.now().plusDays(30L);
         LocalDateTime end = LocalDateTime.now().plusDays(4L);
         User owner = User.builder()
@@ -246,7 +246,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void createBookingStartIsEqualsEndThrowsWrongDateException() {
+    protected void createBookingStartIsEqualsEndThrowsWrongDateException() {
         LocalDateTime start = LocalDateTime.now();
         LocalDateTime end = LocalDateTime.now();
         User owner = User.builder()
@@ -282,7 +282,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void updateStatusIsApprovedTest() {
+    protected void updateStatusIsApprovedTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user")
@@ -326,7 +326,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void updateStatusIsNotApprovedTest() {
+    protected void updateStatusIsNotApprovedTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user")
@@ -370,7 +370,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void updateStatusThrowsUserNotFoundException() {
+    protected void updateStatusThrowsUserNotFoundException() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
@@ -380,7 +380,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void updateStatusThrowsBookingNotFoundException() {
+    protected void updateStatusThrowsBookingNotFoundException() {
         User booker = User.builder()
                 .id(3L)
                 .name("booker")
@@ -398,7 +398,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void updateStatusWhenBookingIsAlreadyApprovedThrowsNotAllowedStatusException() {
+    protected void updateStatusWhenBookingIsAlreadyApprovedThrowsNotAllowedStatusException() {
         LocalDateTime start = LocalDateTime.now().plusDays(1L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -437,7 +437,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void updateStatusWhenBookingIsRejectedThrowsNotAllowedStatusException() {
+    protected void updateStatusWhenBookingIsRejectedThrowsNotAllowedStatusException() {
         LocalDateTime start = LocalDateTime.now().plusDays(1L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -476,7 +476,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void updateStatusThrowsInvalidUserException() {
+    protected void updateStatusThrowsInvalidUserException() {
         LocalDateTime start = LocalDateTime.now().plusDays(1L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -515,7 +515,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getBookingTest() {
+    protected void getBookingTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user")
@@ -557,7 +557,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getBookingThrowsBookingNotFoundException() {
+    protected void getBookingThrowsBookingNotFoundException() {
         User user = User.builder()
                 .id(1L)
                 .name("user")
@@ -574,7 +574,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getBookingUserNotBookerOrItemOwnerThrowsInvalidUserException() {
+    protected void getBookingUserNotBookerOrItemOwnerThrowsInvalidUserException() {
         LocalDateTime start = LocalDateTime.now().plusDays(1L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -619,7 +619,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUsersAllBookings() {
+    protected void getUsersAllBookings() {
         User owner = User.builder()
                 .id(1L)
                 .name("owner")
@@ -682,7 +682,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUsersFutureBookings() {
+    protected void getUsersFutureBookings() {
         LocalDateTime startFuture = LocalDateTime.now().plusYears(1L);
         LocalDateTime endFuture = LocalDateTime.now().plusYears(5L);
         User owner = User.builder()
@@ -725,7 +725,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUsersPastBookings() {
+    protected void getUsersPastBookings() {
 
         User owner = User.builder()
                 .id(1L)
@@ -769,7 +769,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUsersCurrentBookings() {
+    protected void getUsersCurrentBookings() {
 
         User owner = User.builder()
                 .id(1L)
@@ -813,7 +813,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUsersWaitingBookings() {
+    protected void getUsersWaitingBookings() {
         LocalDateTime start = LocalDateTime.now().minusDays(3L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -856,7 +856,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUserRejectedBookings() {
+    protected void getUserRejectedBookings() {
         LocalDateTime start = LocalDateTime.now().minusDays(3L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -899,7 +899,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUsersBookingsThrowsInvalidStatusException() {
+    protected void getUsersBookingsThrowsInvalidStatusException() {
         User booker = User.builder()
                 .id(3L)
                 .name("booker")
@@ -917,7 +917,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUsersBookingsThrowsUserNotFoundException() {
+    protected void getUsersBookingsThrowsUserNotFoundException() {
         when(userRepository.existsById(anyLong()))
                 .thenReturn(false);
 
@@ -943,7 +943,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getUsersBookingsThrowsIncorrectPaginationException() {
+    protected void getUsersBookingsThrowsIncorrectPaginationException() {
         User owner = User.builder()
                 .id(1L)
                 .name("owner name")
@@ -1021,7 +1021,7 @@ public class BookingServiceTest {
     //getOwnerBooking
 
     @Test
-    void getOwnersAllBookingTest() {
+    protected void getOwnersAllBookingTest() {
         LocalDateTime futureStart = LocalDateTime.now().plusDays(1L);
         LocalDateTime futureEnd = LocalDateTime.now().plusDays(2L);
         LocalDateTime pastStart = LocalDateTime.now().minusDays(3L);
@@ -1090,7 +1090,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getOwnersFutureBookings() {
+    protected void getOwnersFutureBookings() {
         LocalDateTime futureStart = LocalDateTime.now().plusDays(1L);
         LocalDateTime futureEnd = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -1135,7 +1135,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getOwnersPastBookings() {
+    protected void getOwnersPastBookings() {
         LocalDateTime pastStart = LocalDateTime.now().minusDays(3L);
         LocalDateTime pastEnd = LocalDateTime.now().minusDays(2L);
         User owner = User.builder()
@@ -1180,7 +1180,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getOwnersCurrentBookings() {
+    protected void getOwnersCurrentBookings() {
         LocalDateTime currentStart = LocalDateTime.now().minusDays(3L);
         LocalDateTime currentEnd = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -1226,7 +1226,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getOwnersWaitingBookings() {
+    protected void getOwnersWaitingBookings() {
         LocalDateTime start = LocalDateTime.now().minusDays(3L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -1272,7 +1272,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getOwnersRejectedBookingsTestOk() {
+    protected void getOwnersRejectedBookingsTestOk() {
         LocalDateTime start = LocalDateTime.now().minusDays(3L);
         LocalDateTime end = LocalDateTime.now().plusDays(2L);
         User owner = User.builder()
@@ -1318,7 +1318,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getOwnersBookingsThrowsInvalidStatusException() {
+    protected void getOwnersBookingsThrowsInvalidStatusException() {
         User owner = User.builder()
                 .id(1L)
                 .name("owner")
@@ -1334,7 +1334,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getOwnersBookingsThrowsUserNotFoundException() {
+    protected void getOwnersBookingsThrowsUserNotFoundException() {
         when(userRepository.existsById(any()))
                 .thenReturn(false);
         UserNotFoundException userNotFoundException = assertThrows(UserNotFoundException.class,
@@ -1343,7 +1343,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getOwnersBookingsThrowsIncorrectPaginationException() {
+    protected void getOwnersBookingsThrowsIncorrectPaginationException() {
         User owner = User.builder()
                 .id(1L)
                 .name("owner name")

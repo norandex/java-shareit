@@ -23,7 +23,7 @@ public class ItemRepoTest {
     private ItemRepository itemRepository;
 
     @Test
-    void findByText() {
+    protected void findByText() {
         User user = User.builder()
                 .id(1L)
                 .name("test")

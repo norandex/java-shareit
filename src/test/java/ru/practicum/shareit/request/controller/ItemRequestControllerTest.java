@@ -39,14 +39,14 @@ class ItemRequestControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    ItemRequestShortDto itemRequestShortDto;
+    private ItemRequestShortDto itemRequestShortDto;
 
-    ItemRequestDto itemRequestDtoCreated;
+    private ItemRequestDto itemRequestDtoCreated;
 
-    ItemDto itemDto;
+    private ItemDto itemDto;
 
     @BeforeEach
-    public void prepare() {
+    private void prepare() {
         itemDto = ItemDto.builder()
                 .id(1L)
                 .name("test name")
@@ -74,7 +74,7 @@ class ItemRequestControllerTest {
     }
 
     @AfterEach
-    public void clean() {
+    private void clean() {
         itemRequestShortDto = null;
 
         itemRequestDtoCreated = null;
@@ -83,7 +83,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    public void createTest() throws Exception {
+    protected void createTest() throws Exception {
         when(itemRequestService.createItemRequest(2L, itemRequestShortDto))
                 .thenReturn(itemRequestDtoCreated);
 
@@ -101,7 +101,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    public void getOwnRequestsTest() throws Exception {
+    protected void getOwnRequestsTest() throws Exception {
         itemRequestDtoCreated.setItems(List.of(itemDto));
 
         when(itemRequestService.getItemRequests(any()))
@@ -130,7 +130,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    public void getAllTest() throws Exception {
+    protected void getAllTest() throws Exception {
         itemRequestDtoCreated.setItems(List.of(itemDto));
 
         when(itemRequestService.getAllItemRequests(any(), any(), any()))
@@ -160,7 +160,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    public void getRequestById() throws Exception {
+    protected void getRequestById() throws Exception {
         itemRequestDtoCreated.setItems(List.of(itemDto));
 
         when(itemRequestService.getItemRequestById(3L, 1L))

@@ -55,7 +55,7 @@ class ItemControllerTest {
     private CommentDto commentDtoCreated;
 
     @BeforeEach
-    public void prepare() {
+    private void prepare() {
         itemDtoCreateTest = ItemDto.builder()
                 .name("test item name")
                 .description("test description")
@@ -93,7 +93,7 @@ class ItemControllerTest {
     }
 
     @AfterEach
-    public void clean() {
+    private void clean() {
         itemDtoCreateTest = null;
         itemDtoCreated = null;
         itemDtoUpdateTest = null;
@@ -101,7 +101,7 @@ class ItemControllerTest {
     }
 
     @Test
-    public void createTest() throws Exception {
+    protected void createTest() throws Exception {
         when(itemService.createItem(1L, itemDtoCreateTest))
                 .thenReturn(itemDtoCreated);
 
@@ -119,7 +119,7 @@ class ItemControllerTest {
     }
 
     @Test
-    public void updateTest() throws Exception {
+    protected void updateTest() throws Exception {
         when(itemService.updateItem(1L, 1L, itemDtoUpdateTest))
                 .thenReturn(itemDtoUpdated);
 
@@ -137,7 +137,7 @@ class ItemControllerTest {
     }
 
     @Test
-    public void findByIdTest() throws Exception {
+    protected void findByIdTest() throws Exception {
         when(itemService.getItem(1L, 1L))
                 .thenReturn(itemDtoUpdated);
 
@@ -152,7 +152,7 @@ class ItemControllerTest {
     }
 
     @Test
-    public void searchByTextTest() throws Exception {
+    protected void searchByTextTest() throws Exception {
         when(itemService.findByText("update", 0, 10))
                 .thenReturn(List.of(itemDtoUpdated));
 
@@ -166,7 +166,7 @@ class ItemControllerTest {
     }
 
     @Test
-    public void commentTest() throws Exception {
+    protected void commentTest() throws Exception {
         when(commentService.comment(1L, 1L, commentShortDto))
                 .thenReturn(commentDtoCreated);
 

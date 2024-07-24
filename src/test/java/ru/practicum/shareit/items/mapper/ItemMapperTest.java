@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ItemMapperTest {
 
     @Test
-    void toItemTest() {
+    protected void toItemTest() {
         ItemDto itemDto = ItemDto.builder()
                 .id(1L)
                 .name("item name")

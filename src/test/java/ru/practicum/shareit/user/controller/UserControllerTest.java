@@ -27,10 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
 
     @Autowired
-    ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     @MockBean
-    UserService mockUserService;
+    private UserService mockUserService;
 
     @Autowired
     private MockMvc mvc;
@@ -44,7 +44,7 @@ class UserControllerTest {
     private UserDto userDtoUpdated;
 
     @BeforeEach
-    public void setUp() {
+    protected void setUp() {
         incUserDto = UserDto.builder()
                 .name("testUserDtoName")
                 .email("testincmail@test.com")
@@ -68,7 +68,7 @@ class UserControllerTest {
     }
 
     @AfterEach
-    public void clean() {
+    protected void clean() {
         incUserDto = null;
         userDto = null;
         incUserDtoUpdate = null;
@@ -76,7 +76,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void createTest() throws Exception {
+    protected void createTest() throws Exception {
         when(mockUserService.createUser(incUserDto))
                 .thenReturn(userDto);
 
@@ -92,7 +92,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void getAllTest() throws Exception {
+    protected void getAllTest() throws Exception {
         when(mockUserService.getUsers())
                 .thenReturn(List.of(userDto));
 
@@ -105,7 +105,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void updateTest() throws Exception {
+    protected void updateTest() throws Exception {
         when(mockUserService.updateUser(1L, incUserDtoUpdate))
                 .thenReturn(userDtoUpdated);
 
@@ -120,7 +120,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void findByIdTest() throws Exception {
+    protected void findByIdTest() throws Exception {
         when(mockUserService.getUser(1L))
                 .thenReturn(userDto);
 
@@ -133,7 +133,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void deleteTest() throws Exception {
+    protected void deleteTest() throws Exception {
         mvc.perform(delete("/users/1")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

@@ -46,12 +46,12 @@ public class ItemServiceTest {
     private ItemRequestRepository itemRequestRepository;
 
     @BeforeEach
-    public void setUp() {
+    private void setUp() {
         itemService = new ItemServiceImpl(userRepository, itemRepository, bookingRepository, commentRepository, itemRequestRepository);
     }
 
     @Test
-    void createItemTest() {
+    protected void createItemTest() {
         User owner = User.builder().id(1L).name("user").email("user@mail.ru").build();
         ItemDto item = ItemDto.builder().name("item").description("info").available(true).build();
 
@@ -66,7 +66,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void createItemThrowsUserNotFoundExceptionTest() {
+    protected void createItemThrowsUserNotFoundExceptionTest() {
         ItemDto item = ItemDto.builder().name("item").description("info").available(true).build();
 
         when(userRepository.findById(any())).thenReturn(Optional.empty());
@@ -75,7 +75,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void createItemThrowsRequestNotFoundExceptionTest() {
+    protected void createItemThrowsRequestNotFoundExceptionTest() {
         User user = User.builder().id(1L).name("owner").email("owner@mail.ru").build();
         ItemDto itemToSave = ItemDto.builder().name("item").description("info").available(true).requestId(1L).build();
 
@@ -87,7 +87,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void updateItemTest() {
+    protected void updateItemTest() {
         User user = User.builder().id(1L).name("user").email("user@mail.ru").build();
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -111,7 +111,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void updateItemThrowsUserNotFoundExceptionTest() {
+    protected void updateItemThrowsUserNotFoundExceptionTest() {
 
         ItemDto item = ItemDto.builder().name("item").description("info").available(true).build();
 
@@ -121,7 +121,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void updateItemThrowsItemNotFoundExceptionTest() {
+    protected void updateItemThrowsItemNotFoundExceptionTest() {
         User user = User.builder().id(1L).name("user").email("user@mail.ru").build();
         ItemDto itemToSave = ItemDto.builder().name("item").description("info").available(true).requestId(1L).build();
 
@@ -134,7 +134,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void updateTestFailUserThrowsIncorrectUserOperationException() {
+    protected void updateTestFailUserThrowsIncorrectUserOperationException() {
         User user = User.builder().id(1L).name("thief").email("test@mail.ru").build();
 
         User owner = User.builder().id(2L).name("user").email("user@mail.ru").build();
@@ -153,7 +153,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void getItemsTest() {
+    protected void getItemsTest() {
         User owner = User.builder().id(2L).name("user").email("owner@mail.ru").build();
 
         User booker = User.builder().id(3L).name("booker").email("booker@mail.ru").build();
@@ -200,7 +200,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void getItemsThrowsUserNotFoundExceptionTest() {
+    protected void getItemsThrowsUserNotFoundExceptionTest() {
         when(userRepository.existsById(any())).thenReturn(false);
         UserNotFoundException userNotFoundException = assertThrows(UserNotFoundException.class,
                 () -> itemService.getItems(1L, 0, 11));
@@ -208,7 +208,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void getUsersItemsTestThrowsPaginationException() {
+    protected void getUsersItemsTestThrowsPaginationException() {
         User user = User.builder().id(2L).name("user").email("user@mail.ru").build();
 
         when(userRepository.findById(2L)).thenReturn(Optional.of(user));
@@ -225,7 +225,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void getItemTest() {
+    protected void getItemTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user")
@@ -307,7 +307,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void getItemThrowsItemNotFoundException() {
+    protected void getItemThrowsItemNotFoundException() {
         when(itemRepository.findById(any()))
                 .thenReturn(Optional.empty());
 
@@ -317,7 +317,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void findByTextTest() {
+    protected void findByTextTest() {
         User owner = User.builder()
                 .id(2L)
                 .name("owner")
@@ -356,7 +356,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void searchByTextThrowsIncorrectPaginationException() {
+    protected void searchByTextThrowsIncorrectPaginationException() {
         User owner = User.builder()
                 .id(2L)
                 .name("user")

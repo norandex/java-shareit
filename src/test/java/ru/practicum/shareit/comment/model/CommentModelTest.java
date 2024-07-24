@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CommentModelTest {
 
     @Test
-    void testEquals() {
+    protected void testEquals() {
         Comment comment1 = Comment.builder()
                 .id(1L)
                 .build();

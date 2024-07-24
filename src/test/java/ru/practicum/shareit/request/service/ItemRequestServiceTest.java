@@ -1,10 +1,10 @@
 package ru.practicum.shareit.request.service;
 
-import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import ru.practicum.shareit.exception.EmptyDescriptionException;
 import ru.practicum.shareit.exception.IncorrectPaginationException;
@@ -30,23 +30,27 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@SpringBootTest
 public class ItemRequestServiceTest {
     @Autowired
-    private final ItemRequestServiceImpl itemRequestService;
+    private ItemRequestServiceImpl itemRequestService;
 
-    @MockBean
-    private final ItemRequestRepository itemRequestRepository;
+    @Mock
+    private ItemRequestRepository itemRequestRepository;
 
-    @MockBean
-    private final UserRepository userRepository;
+    @Mock
+    private UserRepository userRepository;
 
-    @MockBean
-    private final ItemRepository itemRepository;
+    @Mock
+    private ItemRepository itemRepository;
+
+    @BeforeEach
+    private void setUp() {
+        itemRequestService = new ItemRequestServiceImpl(userRepository, itemRepository, itemRequestRepository);
+    }
 
     @Test
-    void createItemRequestTest() {
+    protected void createItemRequestTest() {
         User requester = User.builder()
                 .id(1L)
                 .name("test name")
@@ -78,7 +82,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void createThrowsUserNotFoundException() {
+    protected void createThrowsUserNotFoundException() {
         ItemRequestShortDto itemRequestShortDto = ItemRequestShortDto.builder()
                 .description("description")
                 .build();
@@ -91,7 +95,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void createThrowsEmptyDescriptionFoundException() {
+    protected void createThrowsEmptyDescriptionFoundException() {
         User user = User.builder()
                 .id(1L)
                 .name("user1")
@@ -113,7 +117,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void getItemRequestTest() {
+    protected void getItemRequestTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user1")
@@ -179,7 +183,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void getItemRequestTestThrowsUserNotFoundException() {
+    protected void getItemRequestTestThrowsUserNotFoundException() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
         UserNotFoundException userNotFoundException = assertThrows(UserNotFoundException.class,
@@ -188,7 +192,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void getAllItemRequestsTest() {
+    protected void getAllItemRequestsTest() {
         User user = User.builder()
                 .id(1L)
                 .name("user")
@@ -249,7 +253,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void getAllItemRequestsThrowsUserNotFoundException() {
+    protected void getAllItemRequestsThrowsUserNotFoundException() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
         UserNotFoundException userNotFoundException = assertThrows(UserNotFoundException.class,
@@ -258,7 +262,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void getAllItemRequestsThrowsIncorrectPaginationException() {
+    protected void getAllItemRequestsThrowsIncorrectPaginationException() {
         User user = User.builder()
                 .id(1L)
                 .name("user")
@@ -279,7 +283,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void getItemRequestByIdTest() {
+    protected void getItemRequestByIdTest() {
         User user = User.builder()
                 .id(1L)
                 .name("owner")
@@ -327,7 +331,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void getItemRequestByIdThrowsUserNotFoundException() {
+    protected void getItemRequestByIdThrowsUserNotFoundException() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
         UserNotFoundException userNotFoundException = assertThrows(UserNotFoundException.class,
@@ -336,7 +340,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void getItemRequestByIdThrowsItemRequestNotFoundException() {
+    protected void getItemRequestByIdThrowsItemRequestNotFoundException() {
         User user = User.builder()
                 .id(1L)
                 .name("test name")
