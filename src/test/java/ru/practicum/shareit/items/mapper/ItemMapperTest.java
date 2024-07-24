@@ -11,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class ItemMapperTest {
 
-    private ItemMapper itemMapper;
-
     @Test
     void toItemTest() {
         ItemDto itemDto = ItemDto.builder()

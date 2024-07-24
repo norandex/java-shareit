@@ -39,11 +39,11 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     @Override
     public ItemRequestDto createItemRequest(Long userId, ItemRequestShortDto itemRequestShortDto) {
         log.info("create item request");
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("user id " + userId + " not found"));
         if (itemRequestShortDto.getDescription() == null || itemRequestShortDto.getDescription().isEmpty()) {
             throw new EmptyDescriptionException("empty description");
         }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("user id " + userId + " not found"));
         ItemRequest itemRequest = ItemRequestMapper.toItemRequest(itemRequestShortDto, user, LocalDateTime.now());
         UserDto userDto = UserMapper.toUserDto(user);
         itemRequestRepository.save(itemRequest);

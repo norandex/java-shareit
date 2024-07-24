@@ -22,10 +22,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -307,6 +304,79 @@ public class ItemServiceTest {
         assertEquals(itemDto.getName(), item.getName());
         assertEquals(itemDto.getDescription(), item.getDescription());
         assertEquals(itemDto.getAvailable(), item.getAvailable());
+    }
+
+    @Test
+    void getItemThrowsItemNotFoundException() {
+        when(itemRepository.findById(any()))
+                .thenReturn(Optional.empty());
+
+        ItemNotFoundException itemNotFoundException = assertThrows(ItemNotFoundException.class,
+                () -> itemService.getItem(1L, 1L));
+        assertEquals(itemNotFoundException.getMessage(), "item id 1 not found");
+    }
+
+    @Test
+    void findByTextTest() {
+        User owner = User.builder()
+                .id(2L)
+                .name("owner")
+                .email("owner@mail.ru")
+                .build();
+
+        when(userRepository.existsById(any()))
+                .thenReturn(true);
+
+        when(userRepository.findById(2L))
+                .thenReturn(Optional.of(owner));
+
+        Collection<ItemDto> itemDtos = itemService.findByText("", 0, 11);
+        Assertions.assertTrue(itemDtos.isEmpty());
+
+        Item item = Item.builder()
+                .id(1L)
+                .name("item name")
+                .description("description")
+                .available(true)
+                .owner(owner)
+                .build();
+
+        when(itemRepository.searchByText(any(), any()))
+                .thenReturn(new PageImpl<>(Collections.emptyList()));
+
+        itemDtos = itemService.findByText("text", 0, 11);
+        assertTrue(itemDtos.isEmpty());
+
+        List<Item> items = List.of(item);
+
+        when(itemRepository.searchByText(any(), any()))
+                .thenReturn(new PageImpl<>(items));
+        itemDtos = itemService.findByText("item", 0, 11);
+        assertNotNull(itemDtos);
+    }
+
+    @Test
+    void searchByTextThrowsIncorrectPaginationException() {
+        User owner = User.builder()
+                .id(2L)
+                .name("user")
+                .email("user@mail.ru")
+                .build();
+
+        when(userRepository.existsById(any()))
+                .thenReturn(true);
+
+        when(userRepository.findById(2L))
+                .thenReturn(Optional.of(owner));
+
+        IncorrectPaginationException invalidPageParamsException;
+        invalidPageParamsException = assertThrows(IncorrectPaginationException.class,
+                () -> itemService.findByText("text", -1, 11));
+        assertEquals(invalidPageParamsException.getMessage(), "pagination error");
+
+        invalidPageParamsException = assertThrows(IncorrectPaginationException.class,
+                () -> itemService.findByText("text", -1, 0));
+        assertEquals(invalidPageParamsException.getMessage(), "pagination error");
     }
 
 }

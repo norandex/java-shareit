@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
+import ru.practicum.shareit.exception.EmptyDescriptionException;
 import ru.practicum.shareit.exception.IncorrectPaginationException;
 import ru.practicum.shareit.exception.ItemRequestNotFoundException;
 import ru.practicum.shareit.exception.UserNotFoundException;
@@ -87,6 +88,28 @@ public class ItemRequestServiceTest {
         UserNotFoundException userNotFoundException = assertThrows(UserNotFoundException.class,
                 () -> itemRequestService.createItemRequest(1L, itemRequestShortDto));
         assertEquals(userNotFoundException.getMessage(), "user id 1 not found");
+    }
+
+    @Test
+    void createThrowsEmptyDescriptionFoundException() {
+        User user = User.builder()
+                .id(1L)
+                .name("user1")
+                .email("test@mail.ru")
+                .build();
+
+        when(userRepository.findById(anyLong()))
+                .thenReturn(Optional.of(user));
+
+        ItemRequestShortDto itemRequestShortDto = ItemRequestShortDto.builder()
+                .build();
+
+
+        when(userRepository.findById(anyLong()))
+                .thenReturn(Optional.empty());
+        EmptyDescriptionException emptyDescriptionException = assertThrows(EmptyDescriptionException.class,
+                () -> itemRequestService.createItemRequest(1L, itemRequestShortDto));
+        assertEquals(emptyDescriptionException.getMessage(), "empty description");
     }
 
     @Test

@@ -42,15 +42,15 @@ public class BookingMapperTest {
                 .booker(user)
                 .build();
 
-        BookingDto bookingInfoDto =
+        BookingDto bookingDto =
                 BookingMapper
                         .toBookingDto(booking);
 
-        assertEquals(bookingInfoDto.getItem().getName(), booking.getItem().getName());
-        assertEquals(bookingInfoDto.getBooker().getName(), booking.getBooker().getName());
-        assertEquals(bookingInfoDto.getStatus(), booking.getBookingStatus());
-        assertEquals(bookingInfoDto.getStart(), booking.getStart());
-        assertEquals(bookingInfoDto.getEnd(), booking.getEnd());
+        assertEquals(bookingDto.getItem().getName(), booking.getItem().getName());
+        assertEquals(bookingDto.getBooker().getName(), booking.getBooker().getName());
+        assertEquals(bookingDto.getStatus(), booking.getBookingStatus());
+        assertEquals(bookingDto.getStart(), booking.getStart());
+        assertEquals(bookingDto.getEnd(), booking.getEnd());
     }
 
     @Test

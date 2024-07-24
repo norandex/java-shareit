@@ -1,4 +1,4 @@
-package ru.practicum.shareit.user.service;
+package ru.practicum.shareit.user.controller.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +11,7 @@ import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
+import ru.practicum.shareit.user.service.UserServiceImpl;
 
 import java.util.Collection;
 import java.util.List;
@@ -64,6 +65,20 @@ public class UserServiceTest {
     }
 
     @Test
+    void updateThrowsUserNotFoundException() {
+        UserDto userDto = UserDto.builder()
+                .id(1L)
+                .name("test name")
+                .email("test@mail.ru")
+                .build();
+        when(userRepository.findById(Mockito.any()))
+                .thenReturn(Optional.empty());
+        UserNotFoundException userNotFoundException =
+                assertThrows(UserNotFoundException.class, () -> userService.updateUser(999L, userDto));
+        assertEquals(userNotFoundException.getMessage(), "user not found");
+    }
+
+    @Test
     void getUserTest() {
         User user = User.builder().id(1L).name("test name").email("test@mail.ru").build();
 
@@ -111,11 +126,11 @@ public class UserServiceTest {
     @Test
     void updateUserThrowsEmailCollisionExceptionTest() {
         UserDto userDto = UserDto.builder()
-                .name("user 1")
+                .name("test name")
                 .email("test@mail.ru")
                 .build();
         User user = User.builder()
-                .name("user 2")
+                .name("another name")
                 .email("test@mail.ru")
                 .build();
         assertEquals(user.getEmail(), userDto.getEmail());
@@ -123,8 +138,11 @@ public class UserServiceTest {
                 .thenReturn(Optional.of(user));
 
         when(userRepository.existsByEmail(anyString()))
-                .thenThrow(EmailCollisionException.class);
-        assertThrows(EmailCollisionException.class, () -> userService.updateUser(1L, userDto));
+                .thenThrow(new EmailCollisionException("email collision"));
+        EmailCollisionException emailCollisionException = assertThrows(EmailCollisionException.class,
+                () -> userService.updateUser(1L, userDto));
+        assertEquals(emailCollisionException.getMessage(), "email collision");
+
     }
 
     @Test

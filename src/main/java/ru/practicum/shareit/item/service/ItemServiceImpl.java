@@ -204,7 +204,7 @@ public class ItemServiceImpl implements ItemService {
         PageRequest pageRequest = PageRequest.of(from / size, size);
         List<Item> foundItems = itemRepository.searchByText(text, pageRequest).getContent();
         if (foundItems.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         return foundItems.stream().map(ItemMapper::toItemDto).collect(Collectors.toList());
     }
