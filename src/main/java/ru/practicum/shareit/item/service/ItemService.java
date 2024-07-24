@@ -9,9 +9,9 @@ public interface ItemService {
 
     ItemDto updateItem(Long userId, Long itemId, ItemDto itemDto);
 
-    List<ItemDto> getItems(Long userId);
+    List<ItemDto> getItems(Long userId, Integer from, Integer size);
 
     ItemDto getItem(Long itemId, Long userId);
 
-    List<ItemDto> findByText(String text);
+    List<ItemDto> findByText(String text, Integer from, Integer size);
 }

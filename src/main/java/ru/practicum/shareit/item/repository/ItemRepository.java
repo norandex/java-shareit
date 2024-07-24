@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.practicum.shareit.item.model.Item;
@@ -11,8 +13,12 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "where it.available = true " +
             "and " +
             "(upper(it.name) like upper(concat('%',?1,'%')) or upper(it.description) like upper(concat('%',?1,'%')))")
-    List<Item> searchByText(String text);
+    Page<Item> searchByText(String text, PageRequest pageRequest);
 
-    List<Item> findAllByOwnerId(Long userId);
+    Page<Item> findAllByOwnerId(Long userId, PageRequest pageRequest);
+
+    List<Item> findAllByRequestId(Long requestId);
+
+    List<Item> findAllByRequestIdIn(List<Long> itemRequests);
 
 }

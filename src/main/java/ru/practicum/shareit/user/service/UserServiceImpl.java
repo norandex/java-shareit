@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     public UserDto deleteUser(Long userId) {
         log.info("delete user");
         User userToDelete = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("no user with id + " + userId));
+                .orElseThrow(() -> new UserNotFoundException("no user " + userId + " found"));
         userRepository.delete(userToDelete);
         return UserMapper.toUserDto(userToDelete);
     }
