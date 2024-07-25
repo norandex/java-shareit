@@ -24,8 +24,8 @@ public class BookingController {
 
     @PostMapping
     public BookingDto createBooking(@RequestHeader(USER_ID) Long userId,
-                                    @RequestBody BookingShortDto bookingDto) {
-        return bookingService.createBooking(userId, bookingDto);
+                                    @RequestBody BookingShortDto bookingShortDto) {
+        return bookingService.createBooking(userId, bookingShortDto);
     }
 
     @PatchMapping("/{bookingId}")
@@ -42,13 +42,17 @@ public class BookingController {
 
     @GetMapping
     public List<BookingDto> getUsersBookings(@RequestHeader(USER_ID) Long userId,
-                                             @RequestParam(required = false, defaultValue = "ALL") String state) {
-        return bookingService.getUsersBookings(userId, state);
+                                             @RequestParam(required = false, defaultValue = "ALL") String state,
+                                             @RequestParam(defaultValue = "0", required = false) Integer from,
+                                             @RequestParam(defaultValue = "10", required = false) Integer size) {
+        return bookingService.getUsersBookings(userId, state, from, size);
     }
 
     @GetMapping("/owner")
     public List<BookingDto> getOwnersBookings(@RequestHeader(USER_ID) Long userId,
-                                              @RequestParam(required = false, defaultValue = "ALL") String state) {
-        return bookingService.getOwnersBookings(userId, state);
+                                              @RequestParam(required = false, defaultValue = "ALL") String state,
+                                              @RequestParam(defaultValue = "0", required = false) Integer from,
+                                              @RequestParam(defaultValue = "10", required = false) Integer size) {
+        return bookingService.getOwnersBookings(userId, state, from, size);
     }
 }
