@@ -53,7 +53,7 @@ public class BookingClient extends BaseClient {
     public ResponseEntity<Object> getOwnerBookings(Long userId, String state,
                                                    Integer from, Integer size) {
         State value = State.from(state)
-                .orElseThrow(() -> new InvalidStatusException("Invalid status: " + state));
+                .orElseThrow(() -> new InvalidStatusException("Unknown state: " + state));
         Map<String, Object> parameters = Map.of(
                 "state", value,
                 "from", from,
