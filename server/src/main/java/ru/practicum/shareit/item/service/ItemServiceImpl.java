@@ -24,10 +24,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -95,10 +92,11 @@ public class ItemServiceImpl implements ItemService {
             throw new IncorrectPaginationException("pagination error");
         }
         PageRequest pageRequest = PageRequest.of(from / size, size);
-        List<Item> foundItems = itemRepository.findAllByOwnerId(userId, pageRequest).getContent();
-        if (foundItems.isEmpty()) {
+        List<Item> notSortedfoundItems = itemRepository.findAllByOwnerId(userId, pageRequest).getContent();
+        if (notSortedfoundItems.isEmpty()) {
             return new ArrayList<>();
         }
+        List<Item> foundItems = notSortedfoundItems.stream().sorted(Comparator.comparing(Item::getId)).collect(Collectors.toList());
         Collection<Booking> lastBookings = bookingRepository
                 .findAllByItemOwnerIdAndBookingStatusIsAndStartBefore(userId,
                         BookingStatus.APPROVED,
