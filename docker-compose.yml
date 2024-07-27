@@ -7,7 +7,6 @@ services:
     ports:
       - "6541:5432"
     environment:
-      - TZ=Europe/Moscow
       - POSTGRES_PASSWORD=123456
       - POSTGRES_USER=shareit
       - POSTGRES_DB=shareit
@@ -28,7 +27,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
       - SPRING_DATASOURCE_USERNAME=shareit
       - SPRING_DATASOURCE_PASSWORD=123456
-      - TZ=Europe/Moscow
     depends_on:
       - db
 
@@ -41,5 +39,4 @@ services:
     depends_on:
       - server
     environment:
-      - TZ=Europe/Moscow
       - SHAREIT_SERVER_URL=http://server:9090
